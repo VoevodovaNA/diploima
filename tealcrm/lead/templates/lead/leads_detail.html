@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{lead.name}}{% endblock %}
+
+{% block content %}
+    <div class="py-6 px-6">
+        <h1 class="mb-4 text-xl">{{lead.name}}</h1>
+
+        {% if lead.comment %}
+            <p class="font-semibold">Имя</p>
+            <p class="mb-2">{{ lead.comment }}</p>
+        {% endif %}
+
+        <p class="font-semibold">Приоритет</p>
+        <p class="mb-2">{{ lead.get_priority_display }}</p>
+
+        <p class="font-semibold">Статус</p>
+        <p class="mb-2">{{ lead.get_status_display }}</p>
+
+        <p class="font-semibold">Создано </p>
+        <p class="mb-2">{{ lead.created_at }}</p>
+
+        <p class="font-semibold">Изменено</p>
+        <p class="mb-6">{{ lead.modified_at }}</p>
+
+        <hr class="my-4">
+
+        <a href="{% url 'leads_edit' lead.id %}" class="py-2 px-4 rounded-xl bg-teal-500 text-white">Изменить</a>
+        <a href="{% url 'leads_delete' lead.id %}" class="py-2 px-4 rounded-xl bg-red-500 text-white">Удалить</a>
+
+        <hr class="my-4">
+
+        <h2 class="text-2xl">Комментарии</h2>
+        <form method="post" action=".">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Подтвердить</button>
+        </form>
+
+        <hr class="my-4">
+
+        <a href="{% url 'leads_list' %}">Обратно ко всем мастерам</a>
+
+    </div>
+{% endblock %}
